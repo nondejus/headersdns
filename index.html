@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Bitcoin Headers over DNS</title>
+	</head>
+	<body>
+		<h2>
+			Fetching Bitcoin Headers over DNS
+		</h2>
+		<p>
+			If you're a Bitcoin user or application developer, uncensored access to the blockchain is absolutely critical, but can be very difficult to achieve. While Bitcoin Core has put significant effort into ensuring its tracking of known nodes in the P2P network is robust against sybil attackers, replicating that work would be a challenge for any small team. Worse still, in the opaque world of a global P2P network, how do you know if the effort you've put in is enough?
+		</p>
+		<p>
+		More frightening, adding Lightning support to your wallet or system introduces new reliance on uncensorability of the P2P network, <a href="https://lists.linuxfoundation.org/pipermail/lightning-dev/2019-December/002369.html">with several new avenues for attack which even Bitcoin Core likely doesn't fully protect against.</a>
+		</p>
+		<p>
+			bitcoinheaders.net exists to help provide one more, diverse, source of Bitcoin blockchain data - this time using the DNS. By fetching headers and/or neutrino filters from as many sources as possible, you can start to build reliable detection of censorship-based attacks. While this still leave mitigation of the attacks to be developed, detection is always the first step.
+		</p>
+		<p>
+			bitcoinheaders.net currently supports fetching of either full Bitcoin headers or neutrino filter headers, both with a similar format. To ensure reliable access in the face of strict DNS filters, the data is encoded in IPv6 addresses in AAAA records and DNSSec signed to prevent some basic attacks.
+		</p>
+		<p>
+			All headers and filter headers are encoded with an arbitrary two byte prefix (currently "2001:"), followed by a 0-indexed order nibble (as nameservers often reorder responses). Bitcoin headers are then prefixed by a single 0 byte (two 0 nibbles) and placed into the remaining 80 bytes of six IPv6 addresses. Filter headers are simply placed into three IPv6 addresses with a 17-nibble (8.5 byte) 0 suffix.
+		</p>
+		<p>
+			The gensis block header is, thus, encoded as (note that the responses are usually not sorted):<pre>
+0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:0:1000::
+0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:1000::
+0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:2000::3ba:3edf
+0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:3d7a:7b12:b27a:c72c:3e67:768f:617f
+0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:4c81:bc38:88a5:1323:a9fb:8aa4:b1e5
+0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:5e4a:29ab:5f49:ffff:1d:1dac:2b7c
+			</pre>and the first filter header encoded as:<pre>
+0.0.basic.filter.bitcoinheaders.net. 604800 IN AAAA 2001:9f3:c30f:c37:fb97:7cf3:e1a3:173c
+0.0.basic.filter.bitcoinheaders.net. 604800 IN AAAA 2001:2802:139c:2020::
+0.0.basic.filter.bitcoinheaders.net. 604800 IN AAAA 2001:1631:e8ff:119a:d308:8b6f:5b2b:ced0
+			</pre>
+		</p>
+		<p>
+		You can find the <a href="https://github.com/TheBlueMatt/headersdns">scripts used to generate the zones as well as this website on GitHub.</a>
+		</p>
+	</body>
+</html>
