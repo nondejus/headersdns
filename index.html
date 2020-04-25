@@ -24,7 +24,7 @@
 			All headers and filter headers are encoded with an arbitrary two byte prefix (currently "2001:"), followed by a 0-indexed order nibble (as nameservers often reorder responses). Bitcoin headers are then prefixed by a single 0 byte (two 0 nibbles) and placed into the remaining 80 bytes of six IPv6 addresses. Filter headers are simply placed into three IPv6 addresses with a 17-nibble (8.5 byte) 0 suffix.
 		</p>
 		<p>
-			The gensis block header is, thus, encoded as (note that the responses are usually not sorted):<pre>
+			The genesis block header is, thus, encoded as (note that the responses are usually not sorted):<pre>
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:0:1000::
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:1000::
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:2000::3ba:3edf
