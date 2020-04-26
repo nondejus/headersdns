@@ -44,6 +44,9 @@
 			bitcoinheaders.net currently supports fetching of either full Bitcoin headers or neutrino filter headers, both with a similar format. To ensure reliable access in the face of strict DNS filters, the data is encoded in IPv6 addresses in AAAA records and DNSSec signed to prevent some basic attacks.
 		</p>
 		<p>
+			Headers names are broken into sub-zones of 10,000 records, so queries should take the form of height.(height / 10000).bitcoinheaders.net (or, for basic neutrino filter headers, height.(height / 10000).basic.filter.bitcoinheaders.net).
+		</p>
+		<p>
 			All headers and filter headers are encoded with an arbitrary two byte prefix (currently "2001:"), followed by a 0-indexed order nibble (as nameservers often reorder responses). Bitcoin headers are then prefixed by a single 0 byte (two 0 nibbles) and placed into the remaining 80 bytes of six IPv6 addresses. Filter headers are simply placed into three IPv6 addresses with a 17-nibble (8.5 byte) 0 suffix.
 		</p>
 		<p>
