@@ -2,6 +2,29 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
+		<style type="text/css">
+			body {
+				margin:40px auto;
+				max-width:660px;
+				line-height:1.6;
+				font-size:14pt;
+				color:#444;
+				padding:0 10px;
+			}
+			h1, h2, h3 {
+				line-height: 1.2;
+			}
+			pre {
+				overflow-x: scroll;
+			}
+			pre, .hex {
+				font-size: 9pt;
+			}
+			.hex {
+				font-family: monospace;
+				word-break: break-all;
+			}
+		</style>
 		<title>Bitcoin Headers over DNS</title>
 	</head>
 	<body>
@@ -24,21 +47,27 @@
 			All headers and filter headers are encoded with an arbitrary two byte prefix (currently "2001:"), followed by a 0-indexed order nibble (as nameservers often reorder responses). Bitcoin headers are then prefixed by a single 0 byte (two 0 nibbles) and placed into the remaining 80 bytes of six IPv6 addresses. Filter headers are simply placed into three IPv6 addresses with a 17-nibble (8.5 byte) 0 suffix.
 		</p>
 		<p>
-			The genesis block header is, thus, encoded as (note that the responses are usually not sorted):<pre>
+			The genesis block header is, thus, encoded as (note that the responses are usually not sorted):
+		</p>
+		<pre>
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:0:1000::
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:1000::
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:2000::3ba:3edf
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:3d7a:7b12:b27a:c72c:3e67:768f:617f
 0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:4c81:bc38:88a5:1323:a9fb:8aa4:b1e5
-0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:5e4a:29ab:5f49:ffff:1d:1dac:2b7c
-which decodes to
-0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a29ab5f49ffff001d1dac2b7c
-			</pre>and the first filter header encoded as:<pre>
+0.0.bitcoinheaders.net.	604800	IN	AAAA	2001:5e4a:29ab:5f49:ffff:1d:1dac:2b7c</pre>
+		<p>which decodes to</p>
+		<p class="hex">
+			0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a29ab5f49ffff001d1dac2b7c
+		</p>
+		<p>and the first filter header encoded as:</p>
+		<pre>
 0.0.basic.filter.bitcoinheaders.net. 604800 IN AAAA 2001:9f3:c30f:c37:fb97:7cf3:e1a3:173c
 0.0.basic.filter.bitcoinheaders.net. 604800 IN AAAA 2001:2802:139c:2020::
-0.0.basic.filter.bitcoinheaders.net. 604800 IN AAAA 2001:1631:e8ff:119a:d308:8b6f:5b2b:ced0
-which decodes to 9f3c30f0c37fb977cf3e1a3173c631e8ff119ad3088b6f5b2bced0802139c202
-			</pre>
+0.0.basic.filter.bitcoinheaders.net. 604800 IN AAAA 2001:1631:e8ff:119a:d308:8b6f:5b2b:ced0</pre>
+		<p>which decodes to</p>
+		<p class="hex">
+			9f3c30f0c37fb977cf3e1a3173c631e8ff119ad3088b6f5b2bced0802139c202
 		</p>
 		<p>
 		You can find the <a href="https://github.com/TheBlueMatt/headersdns">scripts used to generate the zones as well as this website on GitHub.</a>
